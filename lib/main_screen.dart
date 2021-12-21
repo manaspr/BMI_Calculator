@@ -1,8 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'container_box.dart';
+import 'icon_content.dart';
+
+const bottomContainerHeight = 80.0;
+const bottomContainerColor = Color(0xFF7a3a1e);
+const inactiveCardColor = Color(0xFF191919);
+const activeCardColor = Color(0xFF323232);
+
+enum Gender {
+  male,
+  female,
+}
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -12,12 +22,20 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  Color maleCardColor = inactiveCardColor;
+  Color femaleCardColor = inactiveCardColor;
+
+  Gender selectedGender = Gender.male;
+
+  //if else function, commented in bottom
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF000000),
       appBar: AppBar(
-        backgroundColor: Color(0xFF26294D),
-        title: Text('BMI Calculator'),
+        backgroundColor: activeCardColor,
+        title: const Text('BMI Calculator'),
         centerTitle: true,
       ),
       body: Column(
@@ -27,42 +45,48 @@ class _MainScreenState extends State<MainScreen> {
             child: Row(
               children: [
                 Expanded(
-                  child: ContainerBox(
-                    color: Color(0xFF26294D),
-                    cardChild: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          FontAwesomeIcons.mars,
-                          color: Color(0xFFFFFFFF),
-                          size: 80,
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          'Male',
-                          style: TextStyle(
-                            fontSize: 25,
-                            color: Color(0xFFFFFFFF),
-                          ),
-                        )
-                      ],
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedGender = Gender.male;
+                      });
+                    },
+                    child: containerBox(
+                      color: selectedGender == Gender.male
+                          ? activeCardColor
+                          : inactiveCardColor,
+                      cardChild: IconContent(
+                        icon: FontAwesomeIcons.mars,
+                        label: "Male",
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
-                  child: ContainerBox(
-                    color: Color(0xFF26294D),
-                    cardChild: Container(),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedGender = Gender.female;
+                        ;
+                      });
+                    },
+                    child: containerBox(
+                      color: selectedGender == Gender.female
+                          ? activeCardColor
+                          : inactiveCardColor,
+                      cardChild: IconContent(
+                        icon: FontAwesomeIcons.venus,
+                        label: "Female",
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
           Expanded(
-            child: ContainerBox(
-              color: Color(0xFF26294D),
+            child: containerBox(
+              color: activeCardColor,
               cardChild: Container(),
             ),
           ),
@@ -70,22 +94,49 @@ class _MainScreenState extends State<MainScreen> {
             child: Row(
               children: [
                 Expanded(
-                  child: ContainerBox(
-                    color: Color(0xFF26294D),
+                  child: containerBox(
+                    color: activeCardColor,
                     cardChild: Container(),
                   ),
                 ),
                 Expanded(
-                  child: ContainerBox(
-                    color: Color(0xFF26294D),
+                  child: containerBox(
+                    color: activeCardColor,
                     cardChild: Container(),
                   ),
                 ),
               ],
             ),
           ),
+          Container(
+            color: bottomContainerColor,
+            margin: const EdgeInsets.only(top: 10.0),
+            width: double.infinity,
+            height: bottomContainerHeight,
+          ),
         ],
       ),
     );
   }
 }
+
+//if else
+
+// void updateColor(Gender gender) {
+//   if (gender == Gender.male) {
+//     if (maleCardColor == inactiveCardColor) {
+//       maleCardColor = activeCardColor;
+//       femaleCardColor = inactiveCardColor;
+//     } else {
+//       maleCardColor = inactiveCardColor;
+//     }
+//   }
+//   if (gender == Gender.female) {
+//     if (femaleCardColor == inactiveCardColor) {
+//       femaleCardColor = activeCardColor;
+//       maleCardColor = inactiveCardColor;
+//     } else {
+//       femaleCardColor = inactiveCardColor;
+//     }
+//   }
+// }
