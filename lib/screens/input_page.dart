@@ -1,8 +1,11 @@
+import 'package:bmi_calculator/results_page.dart';
+import 'package:bmi_calculator/round_icon_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'Bottom_button.dart';
 import 'constants.dart';
-import 'container_box.dart';
+import 'reusable_card.dart';
 import 'icon_content.dart';
 
 enum Gender {
@@ -47,7 +50,7 @@ class _MainScreenState extends State<MainScreen> {
                         selectedGender = Gender.male;
                       });
                     },
-                    child: containerBox(
+                    child: ReusableCard(
                       color: selectedGender == Gender.male
                           ? kActiveCardColor
                           : kInactiveCardColor,
@@ -65,7 +68,7 @@ class _MainScreenState extends State<MainScreen> {
                         selectedGender = Gender.female;
                       });
                     },
-                    child: containerBox(
+                    child: ReusableCard(
                       color: selectedGender == Gender.female
                           ? kActiveCardColor
                           : kInactiveCardColor,
@@ -80,7 +83,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           Expanded(
-            child: containerBox(
+            child: ReusableCard(
               color: kActiveCardColor,
               cardChild: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -139,7 +142,7 @@ class _MainScreenState extends State<MainScreen> {
             child: Row(
               children: [
                 Expanded(
-                  child: containerBox(
+                  child: ReusableCard(
                     color: kActiveCardColor,
                     cardChild: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -180,7 +183,7 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 ),
                 Expanded(
-                  child: containerBox(
+                  child: ReusableCard(
                     color: kActiveCardColor,
                     cardChild: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -223,36 +226,15 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
           ),
-          Container(
-            color: kBottomContainerColor,
-            margin: const EdgeInsets.only(top: 10.0),
-            width: double.infinity,
-            height: kBottomContainerHeight,
+          BottomButton(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ResultPage()));
+            },
+            buttonTitle: 'Calculate',
           ),
         ],
       ),
-    );
-  }
-}
-
-class RoundIconButton extends StatelessWidget {
-  RoundIconButton({required this.icon, required this.onPressed});
-
-  final IconData icon;
-  Function onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-      elevation: 0.0,
-      child: Icon(icon),
-      onPressed: () {},
-      constraints: BoxConstraints.tightFor(
-        width: 56.0,
-        height: 56.0,
-      ),
-      shape: CircleBorder(),
-      fillColor: Color(0xFF4C4F5E),
     );
   }
 }
